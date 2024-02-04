@@ -1,14 +1,11 @@
 const app = require('express')();
 const http = require('http').Server(app);
 
-function start(){
-    function onRequest(request, response) {
-        response.writeHead(200, {"Content-Type": "text/plain"});
-        response.write("Hello Mita kely");
-        response.end();
-    }
-    http.createServer(onRequest).listen(8888);
-    console.log("Server is running");
-}
+const mongoose = require('mongoose');
 
-exports.start = start;
+mongoose.connect("mongodb+srv://nyainamitantsoa1:w74du1b6ijbmI2QB@projectbs.wmabkvh.mongodb.net/?retryWrites=true&w=majority");
+const User = require('./models/userModels');
+
+http.listen(8888, function(){
+    console.log("Server is running");
+});
