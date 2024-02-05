@@ -5,7 +5,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const HistoriqueScanController = require('../../../controllers/PARK/HistoriqueScanController');
+// const HistoriqueScanController = require('../../../controllers/PARK/HistoriqueScanController');
 
 // router.post('/',HistoriqueScanController.AddHistorique);
 

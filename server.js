@@ -1,7 +1,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
-const io = socket_io();
-const routes = require('./Route')(io)
+
+const routes = require('./Route')
 
 function start(){
    
@@ -11,7 +11,8 @@ function start(){
     //     response.end();
     // }
     app.use("/",routes);
-    http.createServer(onRequest).listen(8888);
+    app.listen(8888,()=>console.log('made'));
+    // http.createServer(onRequest).listen(8888);
     
     console.log("Server is running");
 }
