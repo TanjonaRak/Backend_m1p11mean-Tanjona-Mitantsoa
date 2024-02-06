@@ -17,19 +17,14 @@ class HistoriqueScanController {
         }
     }
 
-
-
     async getHisto (req,res){
         try {
-          
             const rest = await historiqueScanModel.get();
             res.status(200).send(rest);
         } catch (error) {
             res.status(500).send({message:error.message})
         }
     }
-
-
 
 }
 
