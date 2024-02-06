@@ -1,5 +1,8 @@
 const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
+const {getClient }  = require('../Utility/db');
+const { db } = require('./userModels');
+require('dotenv').config();
 
 // const { getClient } = require('../../../services/db');
 
@@ -33,11 +36,19 @@ class HistoriqueSCan {
     }
 
     async get (){
+        let client = null;
+        let db = null;
         try {
-            const newHisto = await this.HistoriqueScanModel.find();
+            client = await getClient();
+            db = client.db("Hotel");
+            let newHisto = await db.collection('historiquescans').find({}).toArray();
             return newHisto;
         } catch (error) {
             throw error;            
+        }finally {
+            if (client != null) {
+                client.close();
+            }
         }
     }
 

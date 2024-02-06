@@ -1,8 +1,9 @@
 const app = require('express')();
+
+
 const http = require('http').Server(app);
 
 const routes = require('./Route')
-
 function start(){
    
     // function onRequest(request, response) {
@@ -10,8 +11,7 @@ function start(){
     //     response.write("Hello Mita kely");
     //     response.end();
     // }
-    app.use("/",routes);
-    app.listen(8888,()=>console.log('made'));
+   
     // http.createServer(onRequest).listen(8888);
     
     console.log("Server is running");
