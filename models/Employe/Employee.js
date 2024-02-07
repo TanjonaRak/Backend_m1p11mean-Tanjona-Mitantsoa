@@ -42,16 +42,18 @@ class Employee {
         }
     }
 
-    async getEmployee(db){
+    async getEmployee(db,offset,limit){
         let client = null;
         let db_test = 0;
+        console.log(offset)
+        console.log(limit)
         try {
             if(db == null){
                 db_test = 1;
                 client = await getClient();
                 db = client.db(process.env.DB_NAME); 
             }
-            let result = await db.collection('employees').find({}).toArray();
+            let result = await db.collection('employees').find({}).skip(Number(offset)).limit(Number(limit)).toArray();
             return result;
         } catch (error) {
             throw error;

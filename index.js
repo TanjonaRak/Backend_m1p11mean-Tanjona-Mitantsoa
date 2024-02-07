@@ -1,15 +1,17 @@
 
 const express=require('express');
-var server = require("./server");
+// var server = require("./server");
 require('dotenv').config();
 var app=express();
 const socket_io = require("socket.io");
 const io = socket_io();
 app.io = io;
 const bodyParser=require('body-parser');
-
+const cors=require('cors');
+app.use(cors({origin:'http://localhost:4200'}));
 app.use(bodyParser.json());
 const routes = require('./Route')
+
 // const mongoose = require('mongoose');
 
 // mongoose.connect("mongodb+srv://nyainamitantsoa1:w74du1b6ijbmI2QB@projectbs.wmabkvh.mongodb.net/?retryWrites=true&w=majority");
