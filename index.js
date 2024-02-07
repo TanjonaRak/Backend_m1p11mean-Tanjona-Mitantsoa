@@ -1,6 +1,6 @@
 
 const express=require('express');
-var server = require("./server");
+// var server = require("./server");
 require('dotenv').config();
 var app=express();
 const socket_io = require("socket.io");
