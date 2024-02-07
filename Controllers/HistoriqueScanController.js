@@ -26,6 +26,13 @@ class HistoriqueScanController {
             res.status(500).send({message:error.message})
         }
     }
+    async get (req,res){
+        try {
+            res.status(200).send([1,2,3,6,7,8]);
+        } catch (error) {
+            res.status(500).send({message:error.message})
+        }
+    }
 
 }
 

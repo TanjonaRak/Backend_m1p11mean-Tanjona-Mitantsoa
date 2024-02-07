@@ -40,7 +40,7 @@ class HistoriqueSCan {
         let db = null;
         try {
             client = await getClient();
-            db = client.db("Hotel");
+            db = client.db(process.env.DB_NAME);
             let newHisto = await db.collection('historiquescans').find({}).toArray();
             return newHisto;
         } catch (error) {

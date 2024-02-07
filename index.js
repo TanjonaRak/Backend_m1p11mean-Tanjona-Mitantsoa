@@ -7,6 +7,8 @@ const socket_io = require("socket.io");
 const io = socket_io();
 app.io = io;
 const bodyParser=require('body-parser');
+
+app.use(bodyParser.json());
 const routes = require('./Route')
 // const mongoose = require('mongoose');
 
@@ -16,8 +18,10 @@ const routes = require('./Route')
 // const User = require('./models/userModels');
 const {mongoose}=require('./Utility/Connection');////CONNECTION
 
+
+
 app.use("/",routes(io));////ATO NY ROUTE REHETRA
-app.use(bodyParser.json());
+
 
 app.listen(8888,()=>console.log('made'));////PORT 
 
