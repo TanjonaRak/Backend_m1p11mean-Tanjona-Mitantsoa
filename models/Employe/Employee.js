@@ -37,7 +37,7 @@ class Employee {
 
     async SaveEmployee (employee){
         try {
-            console.log(employee)
+            // console.log(employee)
             const newEmp = new this.EmployeModel(employee);
             newEmp.date_create = new Date();
             const employee_Save = await newEmp.save();
@@ -122,6 +122,8 @@ class Employee {
             
         }
     }
+
+    
 
 
     
