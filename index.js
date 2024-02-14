@@ -1,5 +1,6 @@
 
 const express=require('express');
+const cookieParser = require('cookie-parser');
 // var server = require("./server");
 require('dotenv').config();
 var app=express();
@@ -25,8 +26,8 @@ const {mongoose}=require('./Utility/Connection');////CONNECTION
 app.use("/",routes(io));////ATO NY ROUTE REHETRA
 
 //Manomboka eto 
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
+// const cors = require('cors');
+
 app.use(cors({
     credentials:true,
     origin:['http://localhost:4200']
