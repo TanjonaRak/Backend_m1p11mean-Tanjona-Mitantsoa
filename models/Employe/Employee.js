@@ -12,6 +12,7 @@ class Employee {
         etat : {type:Number},
         service : {type : Array }
     })
+    
     EmployeModel = mongoose.model('employee',this.employee);
 
     /*
