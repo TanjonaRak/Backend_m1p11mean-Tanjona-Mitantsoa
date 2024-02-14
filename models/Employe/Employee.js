@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
+const { getClient } = require('../../Utility/db');
+require('dotenv').config();
 
 class Employee {
 
@@ -28,7 +30,6 @@ class Employee {
     */
 
     constructor (){
-        this.employee.name = "name"
     }
 
     async SaveEmployee (employee){
@@ -42,12 +43,25 @@ class Employee {
         }
     }
 
-    async getEmployee(db,search){
+    async getEmployee(db,offset,limit){
+        let client = null;
+        let db_test = 0;
+        console.log(offset)
+        console.log(limit)
         try {
-            let result = await db.collection('employee').find({}).toArray();
+            if(db == null){
+                db_test = 1;
+                client = await getClient();
+                db = client.db(process.env.DB_NAME); 
+            }
+            let result = await db.collection('employees').find({}).skip(Number(offset)).limit(Number(limit)).toArray();
             return result;
         } catch (error) {
             throw error;
+        }finally {
+            if (db_test != 0 && client!=null) {
+                client.close();
+            }
         }
     }
 
