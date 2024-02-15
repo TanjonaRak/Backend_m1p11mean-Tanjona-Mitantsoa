@@ -10,7 +10,7 @@ class ServiceController {
             const ServiceCreate = await ServiceModel.SaveService(service);
             res.status(200).send({"data":ServiceCreate,status:200,message:"request success"});
         } catch (error) {
-            res.status(500).send({message:error.message,status:500})            
+            res.send({message:error.message,status:500})            
         }
     }
 
@@ -30,6 +30,16 @@ class ServiceController {
             if (client!=null) {
                 client.close();
             }
+        }
+    }
+
+    async UpdateService(req,res){
+        try {
+            let service = {...req.body}
+            const ServiceUpdate = await ServiceModel.UpdateService(service);
+            res.status(200).send({"data":ServiceUpdate,status:200,message:"request success"});
+        } catch (error) {
+            res.send({message:error.message,status:500})    
         }
     }
 }

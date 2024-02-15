@@ -9,11 +9,16 @@ class EmployeeController {
         try {
             // console.log(req)
             const employee = {...req.body}
-            console.log(employee)
+            // console.log(employee)
             const Emp = await EmployeeModel.SaveEmployee(employee);
+           if(Emp!==null){
             res.status(200).send({Emp,status:200});
+           }else{
+            res.send({message:"Mail is not valid",status:500})
+           }
+            
         } catch (error) {
-            res.status(500).send({message:error.message,status:500})
+            res.send({message:error.message,status:500})
         }
     }
 
@@ -41,9 +46,14 @@ class EmployeeController {
             // let _id = req.params._id
             let emp_update = {...req.body};
             const data_update = await EmployeeModel.UpdateEmployee(emp_update,null);
-            res.status(200).send({data_update,status:200,message:"request success"});
+            if(data_update !==null){
+                res.status(200).send({data_update,status:200,message:"request success"});
+            }
+            // res.status(200).send({data_update,status:200,message:"request success"});
+            // res.send({message:,status:500})
         } catch (error) {
-            res.status(500).send({message:error.message,status:500})
+            console.log(error.message)
+            res.send({message:error.message,status:500})
         }
     }
 } 

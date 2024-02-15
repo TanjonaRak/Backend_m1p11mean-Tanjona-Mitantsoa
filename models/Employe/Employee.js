@@ -10,7 +10,11 @@ class Employee {
         name : {type:String,required : true},
         first_name : {type:String , required :true},
         login : {type:String , required :true},
-        email :{type:String , required :true},
+        email :{
+            type:String , 
+            required :true,
+            unique:true
+        },
         password : {type:String , required :true},
         etat : {type:Number},
         service : {type : Array },
@@ -18,7 +22,17 @@ class Employee {
         end_time : {type :String},
         date_create : {type:Date},
     })
+
     
+    // unique:true,
+    // validate:{
+    //     validator:function(v){
+    //         return /^([\w-]+.)+[\w-]{2,4})?$/.test(v);
+    //     },
+    //     message:props =>`${props.value} is not a mail valide !`
+    // }
+
+
     EmployeModel = mongoose.model('employee',this.employee);
 
     /*
@@ -36,13 +50,23 @@ class Employee {
     constructor (){
     }
 
+    async VerifyObject(employee){
+        console.log(employee.email)
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(employee.email);  
+    }
+
     async SaveEmployee (employee){
         try {
-            // console.log(employee)
-            const newEmp = new this.EmployeModel(employee);
-            newEmp.date_create = new Date();
-            const employee_Save = await newEmp.save();
-            return employee_Save;
+            let isEmail = await this.VerifyObject(employee);
+            if(isEmail){
+                const newEmp = new this.EmployeModel(employee);
+                newEmp.date_create = new Date();
+                const employee_Save = await newEmp.save();
+                return employee_Save;
+            }else{
+                return null;
+            }
+           
         } catch (error) {
             throw error;
         }
@@ -82,30 +106,37 @@ class Employee {
     async UpdateEmployee (employee,id,db){
         let client = null;
         let db_test = 0;
-
+        let result = null;
         try {
+            console.log(employee)
+            let isEmail = await this.VerifyObject(employee);
             const newEmp = new this.EmployeModel(employee);
+            console.log(isEmail)
+            if(isEmail){
+                if(db == null){
+                    db_test = 1;
+                    client = await getClient();
+                    db = client.db(process.env.DB_NAME); 
+                }    
+                result  = await db.collection('employees').updateOne(
+                {_id :new ObjectId(employee._id)},
+                {$set:{
+                    name:newEmp.name,
+                    first_name : newEmp.first_name,
+                    email : newEmp.email,
+                    password : newEmp.password,
+                    login : newEmp.login,
+                    service : newEmp.service,
+                    date_last_update : new Date(),
+                    time_between : newEmp.time_between,
+                    end_time : newEmp.end_time
+                    
+                }});
+                return result;
+            }else{
+                throw new Error("Email Not Valid");
+            }
             // let result = newEmp.save();
-            if(db == null){
-                db_test = 1;
-                client = await getClient();
-                db = client.db(process.env.DB_NAME); 
-            }    
-            let result  = await db.collection('employees').updateOne(
-            {_id :new ObjectId(employee._id)},
-            {$set:{
-                name:newEmp.name,
-                first_name : newEmp.first_name,
-                email : newEmp.email,
-                password : newEmp.password,
-                login : newEmp.login,
-                service : newEmp.service,
-                date_last_update : new Date(),
-                time_between : newEmp.time_between,
-                end_time : newEmp.end_time
-                
-            }});
-            return result;
 
         } catch (error) {
             throw error;
