@@ -25,7 +25,7 @@ const {mongoose}=require('./Utility/Connection');////CONNECTION
 app.use("/",routes(io));////ATO NY ROUTE REHETRA
 
 //Manomboka eto 
-const cors = require('cors');
+
 const cookieParser = require('cookie-parser');
 app.use(cors({
     credentials:true,
