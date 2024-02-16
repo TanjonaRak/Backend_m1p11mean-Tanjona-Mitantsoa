@@ -7,9 +7,11 @@ const socket_io = require("socket.io");
 const io = socket_io();
 app.io = io;
 const bodyParser=require('body-parser');
-
+const cors=require('cors');
+app.use(cors({origin:'http://localhost:4200'}));
 app.use(bodyParser.json());
 const routes = require('./Route')
+
 // const mongoose = require('mongoose');
 
 // mongoose.connect("mongodb+srv://nyainamitantsoa1:w74du1b6ijbmI2QB@projectbs.wmabkvh.mongodb.net/?retryWrites=true&w=majority");
@@ -22,8 +24,18 @@ const {mongoose}=require('./Utility/Connection');////CONNECTION
 
 app.use("/",routes(io));////ATO NY ROUTE REHETRA
 
+//Manomboka eto 
 
-app.listen(8888,()=>console.log('made'));////PORT 
+const cookieParser = require('cookie-parser');
+app.use(cors({
+    credentials:true,
+    origin:['http://localhost:4200']
+}));
+app.use(cookieParser());
+   
+
+
+app.listen(8888,()=>console.log('the server is running'));////PORT 
 
 // console.log(process.env.HOST)
 // server.start();

@@ -18,7 +18,9 @@ class EmployeeController {
 
     async getEmployee (req,res){
         try {
-            const data = await EmployeeModel.getEmployee(null);
+            let offset = req.params._offset;
+            let limit = req.params._limit
+            const data = await EmployeeModel.getEmployee(null,offset,limit);
             res.status(200).send({data,status:200,message:"request success"});
         } catch (error) {
             res.status(500).send({message:error.message,status:500})
