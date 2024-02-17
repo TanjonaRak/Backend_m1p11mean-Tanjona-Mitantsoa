@@ -8,4 +8,6 @@ module.exports = (io) => {
     // router.post('/',PreferenceController.);
     router.post('/employee/preference',PreferenceController.getEmployeePreferenceCustomer);
     return router;
+
+    
 };  
