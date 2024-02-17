@@ -41,4 +41,4 @@ app.listen(8888,()=>console.log('the server is running'));////PORT
 // console.log(process.env.HOST)
 // server.start();
 
-module.exports = app;
+// module.exports = app;
