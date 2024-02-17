@@ -42,17 +42,34 @@ class EmployeeController {
     }
 
     async UpdateEmployee(req,res){  
+        let client = null;
         try {
             // let _id = req.params._id
+            client = await getClient();
+            let db = client.db(process.env.DB_NAME); 
             let emp_update = {...req.body};
-            const data_update = await EmployeeModel.UpdateEmployee(emp_update,null);
+            const data_update = await EmployeeModel.UpdateEmployee(emp_update,db);
             if(data_update !==null){
-                res.status(200).send({data_update,status:200,message:"request success"});
+                res.status(200).send({emp_update,status:200,message:"request success"});
             }
             // res.status(200).send({data_update,status:200,message:"request success"});
             // res.send({message:,status:500})
         } catch (error) {
             console.log(error.message)
+            res.send({message:error.message,status:500})
+        }finally{
+            if (client!=null) {
+                client.close();
+            }
+        }
+    }
+
+    async getEmployeeById(req,res){
+        try {
+            let id = req.params._id;
+            let profil = await EmployeeModel.getEmployeeById(id,null);
+            res.status(200).send({profil,status:200,message:"request success"});
+        } catch (error) {
             res.send({message:error.message,status:500})
         }
     }

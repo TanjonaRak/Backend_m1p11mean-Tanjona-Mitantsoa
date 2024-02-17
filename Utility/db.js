@@ -16,7 +16,7 @@ module.exports = {
     async getClient() {
         let client = null;
         try {
-            console.log(process.env.DB_STRING_LOCAL)
+            // console.log(process.env.DB_STRING_LOCAL)
             client = await MongoClient.connect(process.env.DB_STRING_LOCAL);
             // console.log(client)
         } catch (err) {

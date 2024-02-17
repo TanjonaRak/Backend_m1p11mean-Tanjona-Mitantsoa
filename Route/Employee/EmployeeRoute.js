@@ -9,5 +9,6 @@ module.exports = (io) => {
     router.post('/',EmployeeController.SaveEmployee);
     router.get('/:_offset/:_limit',EmployeeController.getEmployee);
     router.put('/',EmployeeController.UpdateEmployee);
+    router.get('/:_id',EmployeeController.getEmployeeById);
     return router;
 };

@@ -2,6 +2,8 @@ const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 const { getClient } = require('../../Utility/db');
 require('dotenv').config();
+const { ObjectId } = require('mongoose').Types;
+
 class Service {
     service = new Schema({
         name: { type: String, required: true },
@@ -86,6 +88,19 @@ class Service {
                 { new: true }
             );
             return res;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async DeleteService(_id){
+        let client = null;
+        try {
+            client = await getClient();
+            let db = client.db(process.env.DB_NAME);
+            let result = await db.collection("services").updateOne({_id:new ObjectId(_id)},{$set:{state:0}});
+            return result;
+            
         } catch (error) {
             throw error;
         }

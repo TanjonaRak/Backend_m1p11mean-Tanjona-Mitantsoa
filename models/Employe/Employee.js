@@ -21,6 +21,8 @@ class Employee {
         time_between : {type : String},
         end_time : {type :String},
         date_create : {type:Date},
+        working_hours:{type:Object},
+        picture:{type:String}
     })
 
     
@@ -108,7 +110,7 @@ class Employee {
         let db_test = 0;
         let result = null;
         try {
-            console.log(employee)
+            // console.log(employee)
             let isEmail = await this.VerifyObject(employee);
             const newEmp = new this.EmployeModel(employee);
             console.log(isEmail)
@@ -118,6 +120,9 @@ class Employee {
                     client = await getClient();
                     db = client.db(process.env.DB_NAME); 
                 }    
+                if(employee.working_hours){
+                    this.HoursWorkingSave(employee.working_hours,db);
+                }
                 result  = await db.collection('employees').updateOne(
                 {_id :new ObjectId(employee._id)},
                 {$set:{
@@ -128,10 +133,12 @@ class Employee {
                     login : newEmp.login,
                     service : newEmp.service,
                     date_last_update : new Date(),
-                    time_between : newEmp.time_between,
-                    end_time : newEmp.end_time
+                    time_between : newEmp.working_hours.time_between,
+                    end_time : newEmp.working_hours.end_time,
+                    working_hours : newEmp.working_hours
                     
                 }});
+                
                 return result;
             }else{
                 throw new Error("Email Not Valid");
@@ -147,11 +154,50 @@ class Employee {
         }
     }
 
+    async getEmployeeById(_id,db){
+        let client = null;
+        let db_test = 0;
+        let result = null;
+        try {
+            if(db===null){
+                db_test = 1;
+                client = await getClient();
+                db = client.db(process.env.DB_NAME);
+            }
+            result = db.collection('employees').findOne({_id:new ObjectId(_id)});
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async DeleteEmployee(_id){
         try {
             
         } catch (error) {
             
+        }
+    }
+
+    async HoursWorkingSave(hoursWork,db){
+        let client = null;
+        let db_test = 0;
+        let result = null;
+        try {
+            if(db===null){
+                db_test = 1;
+                client = await getClient();
+                db = client.db(process.env.DB_NAME);
+            }
+            hoursWork.date_create = new Date();
+            result = db.collection('work_hours').insertOne(hoursWork);
+            return result;
+        } catch (error) {
+            throw error;
+        }finally{
+            if(client!==null && db_test===1){
+                client.close();
+            }
         }
     }
 

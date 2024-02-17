@@ -42,6 +42,8 @@ class ServiceController {
             res.send({message:error.message,status:500})    
         }
     }
+
+    
 }
 
 module.exports = new ServiceController();
