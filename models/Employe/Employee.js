@@ -123,21 +123,26 @@ class Employee {
                 if(employee.working_hours){
                     this.HoursWorkingSave(employee.working_hours,db);
                 }
-                result  = await db.collection('employees').updateOne(
-                {_id :new ObjectId(employee._id)},
-                {$set:{
-                    name:newEmp.name,
-                    first_name : newEmp.first_name,
-                    email : newEmp.email,
-                    password : newEmp.password,
-                    login : newEmp.login,
-                    service : newEmp.service,
-                    date_last_update : new Date(),
-                    time_between : newEmp.working_hours.time_between,
-                    end_time : newEmp.working_hours.end_time,
-                    working_hours : newEmp.working_hours
+                // result  = await db.collection('employees').updateOne(
+                // {_id :new ObjectId(employee._id)},
+                // {$set:{
+                //     name:newEmp.name,
+                //     first_name : newEmp.first_name,
+                //     email : newEmp.email,
+                //     password : newEmp.password,
+                //     login : newEmp.login,
+                //     service : newEmp.service,
+                //     date_last_update : new Date(),
+                //     time_between : newEmp.working_hours.time_between,
+                //     end_time : newEmp.working_hours.end_time,
+                //     working_hours : newEmp.working_hours
                     
-                }});
+                // }});
+                result = await this.EmployeModel.findOneAndUpdate(
+                    {_id :employee._id},
+                    newEmp,
+                    { new: true }
+                );
                 
                 return result;
             }else{
