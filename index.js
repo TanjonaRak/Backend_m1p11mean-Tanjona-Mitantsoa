@@ -9,7 +9,8 @@ const io = socket_io();
 app.io = io;
 const bodyParser=require('body-parser');
 const cors=require('cors');
-app.use(cors({origin:'http://localhost:4200'}));
+// app.use(cors({origin:'http://localhost:4200'}));
+app.use(cors({origin:process.env.CORS_FRONT}))
 app.use(bodyParser.json());
 const routes = require('./Route')
 
@@ -30,7 +31,8 @@ app.use("/",routes(io));////ATO NY ROUTE REHETRA
 
 app.use(cors({
     credentials:true,
-    origin:['http://localhost:4200']
+    // origin:['http://localhost:4200']
+    origin:[process.env.CORS_FRONT]
 }));
 app.use(cookieParser());
    
