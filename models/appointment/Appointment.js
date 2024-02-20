@@ -4,18 +4,18 @@ const { getClient } = require('../../Utility/db');
 const Customer = require('../Customer/Customer');
 const Service = require('../Service/Service');
 const  Employee  = require('../Employe/Employee');
+const nodemailer = require("nodemailer");
 
 
 class Appointment {
 
      appointment = new Schema({
-        _id: { type: String, required: true },
-        customer: { type: Schema.Types.ObjectId, ref: 'Customers', required: true },
-        service: { type: Schema.Types.ObjectId, ref: 'Services', required: true },
-        employee: { type: Schema.Types.ObjectId, ref: 'Employees', required: true },
+        customer: { type: Object, required: true },
+        service: { type: Object, required: true },
+        employee: { type: Object, required: true },
         dateAppointment: { type: Date, required: true },
         hours: { type: String, required: true },
-        etat: { type: Number, required: true },
+        etat: { type: Number, required: true },//0 RDV fait na oe efa vita // 1RDV annulena
         date_create: { type: Date, required: true }
     });
     
@@ -47,7 +47,36 @@ class Appointment {
             throw error;
         }
     }
- 
+    
+    async  sendEmail (customer,callback){
+        try {
+            let transporter = nodemailer.createTransport({
+                host : "smtp.gmail.com",
+                port : 465,
+                secure : true,
+                auth :  {
+                    customer : details.email,
+                    pass : details.password
+                }
+            });
+            let mailOptions = {
+                from : '"process.env.USER_EMAIL"',//sender
+                to : customer.email,
+                subject : "Welcome in our beauty salon ",
+                html : "<h1>Hi ${customer.name}</h1><h4></h4>"
+                
+            };
+            let info = await transporter.sendMail(mailOptions);
+
+            callback(info);
+
+            return transporter;
+
+        } catch (error) {
+            console.log(error);
+        }
+     
+    }
 }
 
 module.exports = new Appointment();

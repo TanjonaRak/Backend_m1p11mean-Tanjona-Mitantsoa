@@ -5,7 +5,6 @@ const { getClient } = require('../../Utility/db');
 
 class Service {
     service = new Schema({
-        _id : {type:String,required : true},
         name : {type:String, required : true},
         deadline : {type:String, required : true},
         price : {type:String, required : true},

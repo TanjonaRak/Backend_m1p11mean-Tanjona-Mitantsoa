@@ -19,12 +19,20 @@ class AppointmentController {
 
     async getDataAppointment (req,res){
         try {
-            const appointment = await AppointmentModel.getDataAppointment();
+            const appointment = await Appointment.getAppointment();
             res.send({ "status": true, "data":appointment});
         } catch (error) {
             res.status(500).send("error");
         }
        
+    }
+
+    async sendEmail (req,res){
+         let customer = req.body;
+         Appointment.sendEmail(customer, info => {
+            console.log("The email has beed send id ${customer.id}");
+            res.send(info);
+         });
     }
 }
 module.exports = new AppointmentController();

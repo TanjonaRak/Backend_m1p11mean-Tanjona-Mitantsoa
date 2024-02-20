@@ -13,9 +13,9 @@ module.exports = function (io) {
     router.use('/scan',HistoriqueScanRoute);
     router.use('/employee',EmployeeRoute);
     router.use('/customer',CustomerRoute);
-    router.use('/Service',ServiceRoute);
+    router.use('/service',ServiceRoute);
     router.use('/appointment',AppointmentRoute);
-
+    
     
     return router;
 };
