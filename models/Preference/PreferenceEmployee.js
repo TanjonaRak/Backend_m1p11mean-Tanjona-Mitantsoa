@@ -178,6 +178,50 @@ class  PreferenceEmployee {
             }
         }
     }
+    async getPreferencesEmployeeFavoris(customer,db){
+        let client = null;
+        // let db = null;
+        let db_test = 0;
+        let employeeResult= [];
+        try {   
+            // console.log("  TEXT : ===>> "+customer._id)
+            if(db === null){
+                client = await getClient();
+                db = client.db(process.env.DB_NAME);
+                db_test = 1 ;
+            }
+            let preferences = await this.getPreferenceByCustomer(db,customer);
+            let employees = await EmployeModel.getEmployee(db,0,100);
+          
+            // employees.forEach((employee) => {
+
+            // });
+            // console.log(employees.length)
+            for(let i=0;i<employees.length;i++){
+                employees[i].state = 0;
+                // console.log(" ===>>>>> "+ preferences.length)
+                for(let n = 0 ; n<preferences.length;n++){
+                    // console.log(preferences[n])
+                    // console.log(employees[i]._id)
+                    // console.log(preferences[n]?.employee._id == employees[i]._id)
+                    if(preferences[n]?.employee._id== employees[i]._id && preferences[n]?.state ===10){
+                        employees[i].state = 10;
+                        employees[i]._idpreference = preferences[n]._id
+                        employeeResult.push(employees[i]);
+                        continue ;
+                    }
+                }
+               
+            }
+            return employeeResult
+        } catch (error) {
+            throw error;
+        }finally{
+            if(db_test === 1 && client !==null){
+                client.close();
+            }
+        }
+    }
 
 }
 
