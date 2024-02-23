@@ -29,7 +29,7 @@ app.use("/",routes(io));////ATO NY ROUTE REHETRA
 const cookieParser = require('cookie-parser');
 app.use(cors({
     credentials:true,
-    origin:['http://localhost:4200']
+    origin:['http://localhost:4200']    
 }));
 app.use(cookieParser());
    

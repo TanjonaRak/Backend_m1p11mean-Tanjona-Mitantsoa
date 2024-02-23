@@ -6,6 +6,7 @@ require('dotenv').config();
 class Employee {
 
     employee = new Schema({
+       // _id: { type: String, required: true },
         name : {type:String,required : true},
         first_name : {type:String , required :true},
         login : {type:String , required :true},
@@ -81,6 +82,20 @@ class Employee {
         }
     }
 
+    async getEmpPerService (service){
+        let client = null;
+       let db = null;
+        try {
+            console.log(service)
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            console.log({"service": {$elemMatch : {"name" : service.name }}})
+            let empService = await db.collection('employees').find({"service": {$elemMatch : {"name" : service.name }}}).toArray();
+            return empService;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     
 }

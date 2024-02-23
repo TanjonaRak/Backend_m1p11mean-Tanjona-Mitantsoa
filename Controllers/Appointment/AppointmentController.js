@@ -19,12 +19,40 @@ class AppointmentController {
 
     async getDataAppointment (req,res){
         try {
-            const appointment = await AppointmentModel.getDataAppointment();
+            const appointment = await Appointment.getAppointment();
             res.send({ "status": true, "data":appointment});
         } catch (error) {
-            res.status(500).send("error");
+           throw error;
         }
        
+    }
+
+    async getEmpAvailable (req, res){
+        try {
+            const empAvalaible = await Appointment.getEmpAvailable(req.body);   
+            res.send({"status":true, "message": empAvalaible});
+        } catch (error) {
+            res.send({"status":false, "message": error.message});
+        }
+    }
+
+    async getAvailableTime (req,res){
+        try {
+            const availableTime = await Appointment.getAvailableTime(req.body);
+            res.send({"status":true, "message": availableTime});
+         } catch (error) {
+            res.send({"status":false, "message": error.message});
+        }
+    }
+
+    async compareTimeService (req,res){
+        try {
+            let result = await Appointment.compareTimeService(req.body);
+            
+            res.send({"status":true, "message": result});
+        } catch (error) {
+            res.send({"status":false, "message": error.message});
+        }
     }
 }
 module.exports = new AppointmentController();

@@ -37,24 +37,12 @@
     "name": "John",
     "first_name": "Doe",
     "password": "password123",
-    "email": "john.doe@example.com",
+    "email": "nyainamitantsoa1@gmail.com",
     "photo": "photo_url"
-}
-
-// Données de test pour le schéma Employee
-{
-    "name": "Jane",
-    "first_name": "Doe",
-    "login": "jane.doe",
-    "email": "jane.doe@example.com",
-    "password": "password123",
-    "etat": 1,
-    "service": ["service1", "service2"]
 }
 
 // Données de test pour le schéma Service
 {
-    "_id": "serv123",
     "name": "Service Name",
     "deadline": "2024-02-16",
     "price": "100",
@@ -65,16 +53,37 @@
     "creation_date": 1645000000
 }
 
+// Données de test pour le schéma Employee
+{
+    "name": "Jane",
+    "first_name": "Doe",
+    "login": "jane.doe",
+    "email": "nyainamitantsoa1@gmail.com",
+    "password": "password123",
+    "etat": 1,
+    "service": ["service1", "service2"]
+}
+
+
 // Données de test pour le schéma Appointment
 {
-    "_id": "1234567890",
-    "customer": "cust123",
+    "customer": "cust1",
     "service": "serv123",
-    "employee": "emp123",
-    "dateAppointment": "2024-02-16T00:00:00.000Z",
+    "employee": "emp1",
+    "dateAppointment": "2024-02-16",
     "hours": "09:00 - 17:00",
     "etat": 1,
-    "date_create": "2024-02-16T00:00:00.000Z"
+    "date_create": "2024-02-16"
+}
+
+{
+    "customer": "507f1f77bcf86cd799439011", 
+    "service": "507f1f77bcf86cd799439012", 
+    "employee": "507f1f77bcf86cd799439013", 
+    "dateAppointment": "2024-02-16",
+    "hours": "09:00 - 17:00",
+    "etat": 1,
+    "date_create": "2024-02-16"
 }
 
  */
