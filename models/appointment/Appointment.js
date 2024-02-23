@@ -4,6 +4,7 @@ const { getClient } = require('../../Utility/db');
 const Customer = require('../Customer/Customer');
 const Service = require('../Service/Service');
 const  Employee  = require('../Employe/Employee');
+const nodemailer = require("nodemailer");
 
 
 class Appointment {
@@ -16,6 +17,14 @@ class Appointment {
         dateAppointment: { type: Date, required: true },
         hours: { type: String, required: true },
         state: { type: Number, required: true },
+
+        customer: { type: Object, required: true },
+        service: { type: Object, required: true },
+        employee: { type: Object, required: true },
+        dateAppointment: { type: Date, required: true },
+        hours: { type: String, required: true },
+        etat: { type: Number, required: true },//0 RDV fait na oe efa vita // 1RDV annulena
+
         date_create: { type: Date, required: true }
     });
     

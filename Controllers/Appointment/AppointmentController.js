@@ -27,6 +27,7 @@ class AppointmentController {
        
     }
 
+
     async getEmpAvailable (req, res){
         try {
             const empAvalaible = await Appointment.getEmpAvailable(req.body);   
@@ -53,6 +54,14 @@ class AppointmentController {
         } catch (error) {
             res.send({"status":false, "message": error.message});
         }
+    }
+    async sendEmail (req,res){
+         let customer = req.body;
+         Appointment.sendEmail(customer, info => {
+            console.log("The email has beed send id ${customer.id}");
+            res.send(info);
+         });
+
     }
 }
 module.exports = new AppointmentController();
