@@ -11,6 +11,8 @@ module.exports = function (io) {
     const PreferenceRoute = require('./Customer/PreferenceRoute')(io)
     const PreferenceEmployeeRoute = require('./Preference/PreferenceEmployeeRoute')(io)
     const PreferenceServiceRoute = require('./Preference/PreferenceServiceRoute')(io)
+    const ExpensesRoute = require('./Manager/ExpensesRoute')(io);
+    const OfferModel = require('./Manager/OfferRoute')(io);
     router.use('/scan',HistoriqueScanRoute);
     router.use('/employee',EmployeeRoute);
     router.use('/customer',CustomerRoute);
@@ -18,5 +20,7 @@ module.exports = function (io) {
     router.use('/preference',PreferenceRoute)
     router.use('/preference-employee',PreferenceEmployeeRoute)
     router.use('/preference-service',PreferenceServiceRoute)
+    router.use('/expenses',ExpensesRoute)
+    router.use('/offer',OfferModel)
     return router;
 };
