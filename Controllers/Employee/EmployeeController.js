@@ -28,8 +28,18 @@ class EmployeeController {
 
     }
 
-    async UpdateEmployee(res,req){
+    async UpdateEmployee(){
 
+    }
+    async getAppointmentEmp (req,res){
+        try {
+            let emp =  {...req.body};
+            let result = await EmployeeModel.AppointmentEmp(emp);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+            
+        } catch (error) {
+            res.status(500).send({message:error.message,status:500})
+        }
     }
 } 
 

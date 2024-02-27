@@ -97,6 +97,22 @@ class Employee {
         }
     }
 
+    async AppointmentEmp (employee){
+        try {
+            let client = null;
+            let db = null;
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            let getAppointment = await db.collection('appointments').find(
+                { "employee.name": employee.name },
+               { "service.name": 1, "dateAppointment": 1, "hours": 1, "_id": 0 } 
+              ).toArray();
+        
+              return getAppointment;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

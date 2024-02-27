@@ -260,7 +260,24 @@ class Appointment {
             throw error;
         }
     
+    }
 
+    async appointmentHistory(customer){
+        try {
+            let client = null;
+            let db = null;
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            let getAppointment = await db.collection('appointments').find(
+                { "customer.name": customer.name },
+               { "service.name": 1, "dateAppointment": 1, "hours": 1, "_id": 0 } 
+              ).toArray();
+        
+              return getAppointment;
+        } catch (error) {
+            throw error;
+        }
+      
     }
 }
 

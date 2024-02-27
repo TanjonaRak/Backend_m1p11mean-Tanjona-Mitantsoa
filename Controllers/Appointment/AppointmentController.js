@@ -71,5 +71,14 @@ class AppointmentController {
             res.send({"status":500, "message": error.message});
         }
     }
+    async getAppointmentHistory (req,res){
+        try {
+            let customer = {...req.body};
+            let result =  await Appointment.appointmentHistory(customer);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
+    }
 }
 module.exports = new AppointmentController();

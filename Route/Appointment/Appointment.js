@@ -10,6 +10,6 @@ module.exports = (io) => {
     router.post('/getTimeAvailable',AppointmentController.getAvailableTime);
     router.post('/getCompareTimeService',AppointmentController.compareTimeService);
     router.post('/employee-appointment',AppointmentController.getEmployeeByAppointment);
-    
+    router.post('/getAppHistory',AppointmentController.getAppointmentHistory);
     return router;
 };  
