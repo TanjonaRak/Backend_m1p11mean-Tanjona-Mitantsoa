@@ -7,7 +7,7 @@ class Service {
     service = new Schema({
      //   _id : {type:String,required : true},
         name : {type:String, required : true},
-        deadline : {type:String, required : true},
+        delay : {type:String, required : true},
         price : {type:String, required : true},
         commission : {type: Number, required : true},
         photo : {type : String, required : true},

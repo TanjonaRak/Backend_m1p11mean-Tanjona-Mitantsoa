@@ -61,7 +61,15 @@ class AppointmentController {
             console.log("The email has beed send id ${customer.id}");
             res.send(info);
          });
-
+    }
+    async getEmployeeByAppointment(req,res){
+        try {
+            let appointment = {...req.body};
+            let result = await Appointment.getEmpPerHour(appointment);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
     }
 }
 module.exports = new AppointmentController();
