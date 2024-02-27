@@ -6,7 +6,7 @@ class AppointmentController {
     async SaveAppointment (req,res){
         
         const cust = {...req.body}
-
+        console.log(cust)
        var status = await Appointment.SaveAppointment(cust);
        console.log(status);
        if(status){
@@ -66,6 +66,28 @@ class AppointmentController {
         try {
             let appointment = {...req.body};
             let result = await Appointment.getEmpPerHour(appointment);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
+    }
+
+    async getTaskByEmployee(req,res){
+        try {
+            let employee = req.body.employee;
+            let dateTask = req.body.dateTask;
+            let result = await Appointment.getTaskByEmployee(employee,dateTask);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
+    }
+
+    async UpdateTask(req,res){
+        try {
+            let id_task = req.params.id_task;
+            let state = req.params.state;
+            let result = await Appointment.UpdateTask(id_task,state);
             res.send({"status":200, "data": result,"message":"Request Success"});
         } catch (error) {
             res.send({"status":500, "message": error.message});

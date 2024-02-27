@@ -15,7 +15,7 @@ class Service {
         state: { type: Number },
         date_to_update: { type: Date }
     })
-    ServiceModel = mongoose.model('service', this.service);
+    ServiceModel = mongoose.model('services', this.service);
 
     async VerifyServices(service) {
         let price = Number(service.price).toString();
