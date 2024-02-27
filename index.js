@@ -21,6 +21,14 @@ const routes = require('./Route')
 
 // const User = require('./models/userModels');
 const {mongoose}=require('./Utility/Connection');////CONNECTION
+const webpush = require('web-push'); // new
+// console.log(webpush.generateVAPIDKeys()); // new
+// const webpush = require('web-push');
+
+const vapidKeys = { // new
+  publicKey: '<YOUR_PUBLIC_KEY>', // new
+  privateKey: '<YOUR_PRIVATE_KEY>' // new
+}; // 
 
 
 

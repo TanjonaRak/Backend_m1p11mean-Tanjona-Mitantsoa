@@ -210,6 +210,21 @@ class Employee {
         // }
     }
 
+    async loginEmployee(employee){
+        let client = null;
+        try {
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            let result = db.collection('employee').find({email:employee.email,password:employee.password}).toArray();
+            if(result.length!==0){
+                
+            }
+        } catch (error) {
+            
+        }
+
+    }
+
     async SendEmailSignUp(email,login,password){
         const html = `<!DOCTYPE html>
           <html
