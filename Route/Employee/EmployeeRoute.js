@@ -9,7 +9,7 @@ module.exports = (io) => {
     router.post('/',EmployeeController.SaveEmployee);
     router.get('/:_offset/:_limit',EmployeeController.getEmployee);
     router.post('/AppointmentEmp',EmployeeController.getAppointmentEmp);
-    
+    router.get('/state-app/:year/:month',EmployeeController.getNbrAppointmentPerDayPerMonth);
 
     return router;
 };

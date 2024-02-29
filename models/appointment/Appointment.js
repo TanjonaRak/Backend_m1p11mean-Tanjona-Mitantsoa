@@ -269,7 +269,7 @@ class Appointment {
             client = await getClient();
             db = client.db(process.env.DB_NAME);
             let getAppointment = await db.collection('appointments').find(
-                { "customer.name": customer.name },
+                { "customer._id": customer._id },
                { "service.name": 1, "dateAppointment": 1, "hours": 1, "_id": 0 } 
               ).toArray();
         
@@ -279,6 +279,83 @@ class Appointment {
         }
       
     }
+    async getDaysInMonth(month, year) {
+        const date = new Date(year, month+1, 0).getDate();
+        const days = [];
+        // console.log(date.getMonth()==month)
+        for (let i = 0;i<=date;i++) {
+            console.log("mita")
+            days.push(new Date(year,month-1,i));
+            // date.setDate(date.getDate() + 1);
+        }
+    
+        return days;
+    }
+    
+    async turnover (yearState,monthState){
+        try {
+            let client = null;
+            let db = null;
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            let days =  await this.getDaysInMonth(monthState,yearState);
+
+            let pipline = [
+                {
+                    "$project": {
+                        year: { $year: "$dateAppointment" },
+                        month: { $month: "$dateAppointment" },
+                        dateAppointment:"$dateAppointment",
+                        price : "$service.price"
+                    },
+                },
+                {
+                    "$match": {
+                        year: Number(yearState),    
+                        month: Number(monthState)
+                    },
+                },
+                {
+                    $group: {
+                        _id: { date:"$dateAppointment"},
+                        turnover: { $sum: "$price" },
+                    }
+                },
+            ];
+            let result = await db.collection('appointments').aggregate(pipline).toArray();
+            console.log("result==>>",result);
+            console.log("day==>>",days);
+            let dataSend = [];
+
+            for(let i=0;i<days.length;i++){
+                let test = false;
+                for(let j=0;j<result.length;j++){
+                    console.log(result[j]._id.date.toLocaleString().split(" ")[0],"===",days[i].toLocaleString().split(" ")[0])
+                    if(result[j]._id.date.toLocaleString().split(" ")[0]===days[i].toLocaleString().split(" ")[0]){
+                        let res = {
+                            "x" : new Date(days[i]),
+                            "y" : result[j].turnover
+                        }
+                        test = true;
+                        dataSend.push(res);
+                        continue;
+                    }
+                }
+                if(test===false){
+                    let res = {
+                        "x" :new Date(days[i]),
+                        "y" : 0
+                    }
+                   
+                    dataSend.push(res);
+                }
+            }
+            return dataSend;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 module.exports = new Appointment();

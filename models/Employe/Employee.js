@@ -104,11 +104,87 @@ class Employee {
             client = await getClient();
             db = client.db(process.env.DB_NAME);
             let getAppointment = await db.collection('appointments').find(
-                { "employee.name": employee.name },
+                { "employee._id": employee._id },
                { "service.name": 1, "dateAppointment": 1, "hours": 1, "_id": 0 } 
               ).toArray();
         
               return getAppointment;
+        } catch (error) {
+            throw error;
+        }
+    }
+    //Le numéro du mois (0 pour janvier, 1 pour février, 
+    async getDaysInMonth(month, year) {
+        const date = new Date(year, month+1, 0).getDate();
+        const days = [];
+        // console.log(date.getMonth()==month)
+        for (let i = 0;i<=date;i++) {
+            console.log("mita")
+            days.push(new Date(year,month-1,i));
+            // date.setDate(date.getDate() + 1);
+        }
+    
+        return days;
+    }
+    
+    async NbrAppointmentPerDayPerMonth (yearState,monthState){
+        try {
+            let client = null;
+            let db = null;
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            let days =  await this.getDaysInMonth(monthState,yearState);
+
+            let pipline = [
+                {
+                    "$project": {
+                        year: { $year: "$dateAppointment" },
+                        month: { $month: "$dateAppointment" },
+                        dateAppointment:"$dateAppointment"
+                    },
+                },
+                {
+                    "$match": {
+                        year: Number(yearState),    
+                        month: Number(monthState)
+                    },
+                },
+                {
+                    $group: {
+                        _id: { date:"$dateAppointment"},
+                        nbTask: { $sum: 1 },
+                    }
+                },
+            ];
+            let result = await db.collection('appointments').aggregate(pipline).toArray();
+            console.log("result==>>",result);
+            console.log("day==>>",days);
+            let dataSend = [];
+
+            for(let i=0;i<days.length;i++){
+                let test = false;
+                for(let j=0;j<result.length;j++){
+                    console.log(result[j]._id.date.toLocaleString().split(" ")[0],"===",days[i].toLocaleString().split(" ")[0])
+                    if(result[j]._id.date.toLocaleString().split(" ")[0]===days[i].toLocaleString().split(" ")[0]){
+                        let res = {
+                            "x" : new Date(days[i]),
+                            "y" : result[j].nbTask
+                        }
+                        test = true;
+                        dataSend.push(res);
+                        continue;
+                    }
+                }
+                if(test===false){
+                    let res = {
+                        "x" :new Date(days[i]),
+                        "y" : 0
+                    }
+                   
+                    dataSend.push(res);
+                }
+            }
+            return dataSend;
         } catch (error) {
             throw error;
         }

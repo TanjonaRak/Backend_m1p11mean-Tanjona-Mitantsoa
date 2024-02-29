@@ -80,5 +80,15 @@ class AppointmentController {
             res.send({"status":500, "message": error.message});
         }
     }
+    async getTurnover (req,res){
+        try {
+            let year = req.params.year;
+            let month = req.params.month;
+            let result = await Appointment.turnover(year,month);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
+    }
 }
 module.exports = new AppointmentController();

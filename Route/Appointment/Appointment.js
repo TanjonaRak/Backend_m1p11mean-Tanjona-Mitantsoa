@@ -11,5 +11,8 @@ module.exports = (io) => {
     router.post('/getCompareTimeService',AppointmentController.compareTimeService);
     router.post('/employee-appointment',AppointmentController.getEmployeeByAppointment);
     router.post('/getAppHistory',AppointmentController.getAppointmentHistory);
+    router.get('/:year/:month',AppointmentController.getTurnover);
+
+    
     return router;
 };  

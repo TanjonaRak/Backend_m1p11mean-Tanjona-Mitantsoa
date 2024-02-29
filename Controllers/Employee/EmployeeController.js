@@ -41,6 +41,18 @@ class EmployeeController {
             res.status(500).send({message:error.message,status:500})
         }
     }
+    async getNbrAppointmentPerDayPerMonth (req,res){
+        try {
+
+            let year = req.params.year;
+            let month = req.params.month;
+            let result = await EmployeeModel.NbrAppointmentPerDayPerMonth(year,month);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+
+        } catch (error) {
+            res.status(500).send({message:error.message,status:500})
+        }
+    }
 } 
 
 module.exports = new EmployeeController();
