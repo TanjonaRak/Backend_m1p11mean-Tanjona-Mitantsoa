@@ -6,6 +6,7 @@ const Service = require('../Service/Service');
 const  Employee  = require('../Employe/Employee');
 const nodemailer = require("nodemailer");
 const e = require('express');
+const { ObjectId } = require('mongoose').Types;
 
 
 class Appointment {
@@ -89,8 +90,8 @@ class Appointment {
               let empAvalaible = await db.collection('appointments').aggregate([
                 {
                 "$match":{
-                    //  "employee":{"$in" : empService},
-                    //  "dateAppointment": new Date(appointment.dateAppointment)
+                     "employee":{"$in" : empService},
+                     "dateAppointment": new Date(appointment.dateAppointment)
                  }
                },
                 {
@@ -269,7 +270,7 @@ class Appointment {
 
     async getTaskByStateDate(db,employee,dateTask,state){
         try {
-            // console.log({" employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)})
+            console.log({" employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)})
             let result = await db.collection('appointments').find({"employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)}).toArray();
             return  result ;
         } catch (error){
@@ -298,7 +299,8 @@ class Appointment {
         let client  = null;
         try {
             client = await getClient();
-            db = client.db(process.env.DB_NAME);
+            let db = client.db(process.env.DB_NAME);
+            console.log({_id:new ObjectId(_idtask)})
             let result_update = await db.collection('appointments').updateOne({_id:new ObjectId(_idtask)},{$set:{state:Number(state)}})
             return result_update;
         } catch (error) {

@@ -73,6 +73,20 @@ class EmployeeController {
             res.send({message:error.message,status:500})
         }
     }
+
+    async LoginEmployee(req,res){
+        try {
+            let employee = req.body;
+            let token = await EmployeeModel.loginEmployee(employee);
+            if(token!==null){
+                res.status(200).send({token,status:200,message:"request success"});
+            }else{
+                return res.json({ message: 'login ou mot de passe incorrect',status:401 });
+            }
+        } catch (error) {
+            res.send({message:error.message,status:500})
+        }
+    }
 } 
 
 module.exports = new EmployeeController();

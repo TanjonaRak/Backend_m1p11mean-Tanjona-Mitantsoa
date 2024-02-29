@@ -17,7 +17,7 @@ class Expenses {
     async VerifyExpenses(expenses){
         let amount = Number(expenses.amount).toString();
         if (amount === "NaN") {
-            throw new Error("Amount is not a number");
+            throw new Error("Sum is not a number");
         }
     }
 
@@ -31,8 +31,62 @@ class Expenses {
             throw error;
         }
     }
-    async getDepenses(){
+    async getDepenses(expenses,offset,limit){
+        let client = null;
+        // let db = null;
+        try {
+            client = await getClient();
+            let db = client.db(process.env.DB_NAME);
+            let match = {};
+            let date_filtre = []
+            let lineNumber = 0;
+            let result = null;
+            // console.log(offer.ObjectKey)
+            
+            if(expenses && Object.keys(expenses).length > 0){
+                let aggregationPipeline = []
+                // Ajoutez l'étape $match pour la plage de dates
+                if (expenses.start_date && expenses.end_date) {
+                    const startDate = new Date(expenses.start_date);
+                    const endDate = new Date(expenses.end_date);
         
+                    // Ajoutez l'étape $match pour la plage de dates
+                    aggregationPipeline.push({
+                        "$match": {
+                            "date": { "$gte": startDate, "$lte": endDate }
+                        }
+                    });
+                }
+                match.$and = date_filtre;
+                // console.log(offset)
+                result = await db.collection("expenses").aggregate(aggregationPipeline).sort({start_date:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
+                lineNumber = parseInt(((result.length/limit) + 1));
+            }else{
+                console.log("DB : ",db)
+                lineNumber = await this.getLigneNumber(db,limit);    
+                result = await db.collection("expenses").find({}).sort({start_date:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
+                // console.log(result)
+                
+            }
+            
+            // console.log("YUHUHJ",{result,lineNumber})
+            return {result,lineNumber}
+        } catch (error) {
+            throw error;
+        }finally{
+            if(client!==null){
+                client.close();
+            }
+        }
+    }
+
+    async getLigneNumber(db,limit){
+        try {
+            let result = await db.collection('expenses').find({}).toArray();
+            return parseInt(((result.length/limit) + 1));
+        } catch (error) {
+            throw error;
+        }
     }
 
 }

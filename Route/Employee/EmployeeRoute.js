@@ -10,5 +10,6 @@ module.exports = (io) => {
     router.get('/:_offset/:_limit',EmployeeController.getEmployee);
     router.put('/',EmployeeController.UpdateEmployee);
     router.get('/:_id',EmployeeController.getEmployeeById);
+    router.post('/login-employee',EmployeeController.LoginEmployee);
     return router;
 };

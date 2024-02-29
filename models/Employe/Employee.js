@@ -4,6 +4,9 @@ const { getClient } = require('../../Utility/db');
 const { sendMailToUser } = require('../../Utility/EmailUtils');
 require('dotenv').config();
 const { ObjectId } = require('mongoose').Types;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const secretKey = 'm1p11mean'; 
 
 class Employee {
 
@@ -24,7 +27,8 @@ class Employee {
         end_time : {type :String},
         date_create : {type:Date},
         working_hours:{type:Object},
-        picture:{type:String}
+        picture:{type:String},
+        salary : {type:Number,required:true}
     })
 
     
@@ -59,14 +63,29 @@ class Employee {
         return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(employee.email);  
     }
 
+    async VerifyData(employee){
+        let salary = Number(employee.salary).toString();
+        console.log(salary=== "NaN")
+        if (salary === "NaN") {
+            throw new Error("Salary is a number");
+        } 
+    }
+
     async SaveEmployee (employee){
         try {
             let isEmail = await this.VerifyObject(employee);
+            await this.VerifyData(employee);
             if(isEmail){
+                // console.log(JSOemployee)
                 const newEmp = new this.EmployeModel(employee);
                 newEmp.date_create = new Date();
+                const salt = await bcrypt.genSalt(10);
+        
+                // Crypter le mot de passe avec le sel
+                const hashedPassword = await bcrypt.hash(newEmp.password, salt);
+                newEmp.password = hashedPassword;
                 const employee_Save = await newEmp.save();
-                // this.SendEmailSignUp(employee.email,employee.login,employee.password);
+                await this.SendEmailSignUp(employee.email,employee.login,employee.password);
                 return employee_Save;
             }else{
                 return null;
@@ -215,13 +234,19 @@ class Employee {
         let client = null;
         try {
             client = await getClient();
-            db = client.db(process.env.DB_NAME);
-            let result = db.collection('employee').find({email:employee.email,password:employee.password}).toArray();
-            if(result.length!==0){
-                
+            let db = client.db(process.env.DB_NAME);
+            let user =await  db.collection('employees').find({login:employee.login}).sort({"date_create":-1}).toArray();
+            console.log(user[0])
+            if(user.length!==0 && (await bcrypt.compare(employee.password, user[0].password))){           
+                const token = jwt.sign({_id:user[0].id, login: user[0].login,email:user[0].email,name:user[0].name}, secretKey, { expiresIn: '1h' });
+                return {token,"first_name":user[0].first_name,"_id":user[0]._id};
+            }else{
+                return null;
             }
         } catch (error) {
-            
+            throw error;
+        }finally{
+            if(client!==null)client.close();
         }
 
     }
@@ -319,9 +344,11 @@ class Employee {
             </head>
 
             <body>
-                <h3>Email the manager </h3><h4> your login `+login+`</h4><h4> your passord`+password+`</h4></body>
+                <h3>Email the manager </h3><h4> your login : `+login+`</h4><h4> your passord : `+password+`  </h4>
+                <h1>thank you and welcome</h1>
+                </body>
           </html>`
-          return sendMailToUser(email,html,"Email for login in Beauty.com");
+          return await sendMailToUser(email,html,"Email for login in Beauty.com");
     }
 
     
@@ -341,6 +368,7 @@ class Employee {
         }
     }
 
+    // async loginEmployee
     
 }
 

@@ -13,8 +13,10 @@ module.exports = function (io) {
     const PreferenceServiceRoute = require('./Preference/PreferenceServiceRoute')(io)
     const ExpensesRoute = require('./Manager/ExpensesRoute')(io);
     const OfferModel = require('./Manager/OfferRoute')(io);
-    const ServiceRoute = require('./Service/ServiceRoute')(io);
+    const ServiceRoute = require('./Manager/ServiceRoute')(io);
     const AppointmentRoute =  require('./Appointment/Appointment')(io);
+    const StateRoute = require('./Statistique/StatistiqueRoute')(io);
+    const ManagerRoute = require('./Manager/ManagerRoute')(io);
 
     router.use('/scan',HistoriqueScanRoute);
     router.use('/employee',EmployeeRoute);
@@ -26,7 +28,8 @@ module.exports = function (io) {
     router.use('/expenses',ExpensesRoute)
     router.use('/offer',OfferModel)
     router.use('/appointment',AppointmentRoute);
-    
+    router.use('/state',StateRoute)
+    router.use('/manager',ManagerRoute)
     
     return router;
 };

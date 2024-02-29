@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const { getClient } = require('../../Utility/db');
+const bcrypt = require('bcrypt');
 
 
 class Customer {

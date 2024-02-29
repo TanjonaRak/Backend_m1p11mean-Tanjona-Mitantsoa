@@ -21,7 +21,7 @@ class Offer {
         let reduction = Number(offer.reduction).toString();
         if (reduction === "NaN") {
             throw new Error("Reduction is not number");
-        }
+        }           
     }
 
     async SaveOffer(offer) {

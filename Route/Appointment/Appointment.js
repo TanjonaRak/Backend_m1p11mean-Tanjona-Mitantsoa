@@ -11,7 +11,7 @@ module.exports = (io) => {
     router.post('/getCompareTimeService',AppointmentController.compareTimeService);
     router.post('/employee-appointment',AppointmentController.getEmployeeByAppointment);
     router.post('/employee-task',AppointmentController.getTaskByEmployee);
-    router.put('/employee-task/:_id_task/:state',AppointmentController.UpdateTask)
+    router.put('/employee-task/:id_task/:state',AppointmentController.UpdateTask)
     
     return router;
 };  
