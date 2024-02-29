@@ -10,6 +10,9 @@ module.exports = (io) => {
     router.post('/getTimeAvailable',AppointmentController.getAvailableTime);
     router.post('/getCompareTimeService',AppointmentController.compareTimeService);
     router.post('/employee-appointment',AppointmentController.getEmployeeByAppointment);
+    router.post('/getAppHistory',AppointmentController.getAppointmentHistory);
+    router.get('/:year/:month',AppointmentController.getTurnover);
+
     router.post('/employee-task',AppointmentController.getTaskByEmployee);
     router.put('/employee-task/:id_task/:state',AppointmentController.UpdateTask)
     
