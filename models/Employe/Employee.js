@@ -361,7 +361,7 @@ class Employee {
             client = await getClient();
             db = client.db(process.env.DB_NAME);
             console.log({"service": {$elemMatch : {"name" : service.name }}})
-            let empService = await db.collection('employees').find({"service": {$elemMatch : {"name" : service.name }}}).toArray();
+            let empService = await db.collection('employees').find({"service": {$elemMatch : {"name" : service.name }}},{"_id":1,"picture":0,"name":0,"first_name":0,"email":0,"password":0,"login":0,"service":0}).toArray();
             return empService;
         } catch (error) {
             throw error;

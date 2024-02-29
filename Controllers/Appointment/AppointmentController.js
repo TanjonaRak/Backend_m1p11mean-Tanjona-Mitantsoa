@@ -6,9 +6,9 @@ class AppointmentController {
     async SaveAppointment (req,res){
         
         const cust = {...req.body}
-        console.log(cust)
+        // console.log(cust)
        var status = await Appointment.SaveAppointment(cust);
-       console.log(status);
+    //    console.log(status);
        if(status){
             res.send({"status":true, "message": "Appointment created successfuly"});
        }

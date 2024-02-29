@@ -81,19 +81,19 @@ class Appointment {
             client = await getClient();
             db = client.db(process.env.DB_NAME);
             let empService = await Employee.getEmpPerService(appointment.service);
-            console.log(JSON.stringify(empService))
+            // console.log(JSON.stringify(empService))
             console.log(appointment.dateAppointment)
               console.log({"$match":{
                          "employee":{"$in" : JSON.stringify(empService)},
                          "dateAppointment": appointment.dateAppointment}});
                         
               let empAvalaible = await db.collection('appointments').aggregate([
-                {
-                "$match":{
-                     "employee":{"$in" : empService},
-                     "dateAppointment": new Date(appointment.dateAppointment)
-                 }
-               },
+            //     {
+            //     "$match":{
+            //          "employee._id":{"$in" : empService},
+            //          "dateAppointment": new Date(appointment.dateAppointment)
+            //      }
+            //    },
                 {
                   $addFields: {
                     hoursAsMinutes: {
