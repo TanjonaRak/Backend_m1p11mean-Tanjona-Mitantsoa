@@ -1,4 +1,4 @@
-const Appointment = require('../../models/Appointment/Appointment');
+const Appointment = require('../../models/appointment/Appointment');
 const db = require('../../Utility/db');
 
 class AppointmentController {
