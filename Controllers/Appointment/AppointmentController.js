@@ -71,12 +71,31 @@ class AppointmentController {
             res.send({"status":500, "message": error.message});
         }
     }
+    async getAppointmentHistory (req,res){
+        try {
+            let customer = {...req.body};
+            let result =  await Appointment.appointmentHistory(customer);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
+    }
 
     async getTaskByEmployee(req,res){
         try {
             let employee = req.body.employee;
             let dateTask = req.body.dateTask;
             let result = await Appointment.getTaskByEmployee(employee,dateTask);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+        } catch (error) {
+            res.send({"status":500, "message": error.message});
+        }
+    }
+    async getTurnover (req,res){
+        try {
+            let year = req.params.year;
+            let month = req.params.month;
+            let result = await Appointment.turnover(year,month);
             res.send({"status":200, "data": result,"message":"Request Success"});
         } catch (error) {
             res.send({"status":500, "message": error.message});

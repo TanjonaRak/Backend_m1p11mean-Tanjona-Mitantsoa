@@ -41,6 +41,7 @@ class EmployeeController {
         }
     }
 
+    // async UpdateEmployee(){
     async UpdateEmployee(req,res){  
         let client = null;
         try {
@@ -85,6 +86,28 @@ class EmployeeController {
             }
         } catch (error) {
             res.send({message:error.message,status:500})
+        }
+    }
+    async getAppointmentEmp (req,res){
+        try {
+            let emp =  {...req.body};
+            let result = await EmployeeModel.AppointmentEmp(emp);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+            
+        } catch (error) {
+            res.status(500).send({message:error.message,status:500})
+        }
+    }
+    async getNbrAppointmentPerDayPerMonth (req,res){
+        try {
+
+            let year = req.params.year;
+            let month = req.params.month;
+            let result = await EmployeeModel.NbrAppointmentPerDayPerMonth(year,month);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+
+        } catch (error) {
+            res.status(500).send({message:error.message,status:500})
         }
     }
 } 
