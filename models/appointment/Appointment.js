@@ -26,7 +26,9 @@ class Appointment {
         // hours: { type: String, required: true },
         state: { type: Number, required: true },//0 RDV fait na oe efa vita // 1RDV annulena
 
-        date_create: { type: Date, required: true }
+        date_create: { type: Date, required: true },
+        date_finished :{type:Date}//////DATE FINISHED ===>> AN'TANJONA TYYY AHNN
+
     });
     
     constructor (){  
@@ -36,17 +38,21 @@ class Appointment {
 
     async SaveAppointment (appointment){
         try {
-          
+            
             const newAppointment = new this.AppointmentModel(appointment);
+            
             newAppointment.state = 10;
             newAppointment.date_create = new Date();
-            
+            let testIsEmployee = false;
             if(!newAppointment.employee){
                 // let dt = 
-                console.log("EMP === <<<<<<< ",await this.getEmpPerHour(newAppointment)[0])
+                // console.log(newAppointment,"NEW APPP")
+                // console.log("EMP === <<<<<<< ",await this.getEmpPerHour(newAppointment)[0])
+               testIsEmployee = true;
                newAppointment.employee = await this.getEmpPerHour(newAppointment);
+            }if(testIsEmployee){
+                newAppointment.employee = newAppointment.employee[0]
             }
-            newAppointment.employee = newAppointment.employee[0]
             const  save_appointment= await newAppointment.save();
             return save_appointment;
         } catch (error) {
@@ -211,8 +217,8 @@ class Appointment {
         try {
             let empService = await Employee.getEmpPerService(appointment.service);
             let empHour = await this.getEmpAvailable(appointment);
-            console.log(empService ,"SERVICE EMP ")
-            console.log(empHour,"EMP HOURS ")
+            // console.log(empService ,"SERVICE EMP ")
+            // console.log(empHour,"EMP HOURS ")
             let tab = [];
             for(let i=0;i<empService.length;i++){
                 let testEnter = false;
@@ -355,6 +361,52 @@ class Appointment {
             throw error;
         }
     }
+
+    
+
+    async getTaskByStateDate(db,employee,dateTask,state){
+        try {
+            // console.log({" employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)})
+            let result = await db.collection('appointments').find({"employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)}).toArray();
+            return  result ;
+        } catch (error){
+            throw error;
+        }
+    }
+
+    async getTaskByEmployee(employee,dateTask){
+        let client = null;
+        try {
+            client = await getClient();
+            let db = client.db(process.env.DB_NAME);
+            let task_proccessing = await this.getTaskByStateDate(db,employee,dateTask,10);
+            let task_finish =await this.getTaskByStateDate(db,employee,dateTask,20);
+            return {task_finish,task_proccessing};
+        } catch (error) {
+            throw error;
+        }finally{
+            if(client!==null){
+                client.close();
+            }
+        }
+    }
+
+    async UpdateTask (_idtask , state){
+        let client  = null;
+        try {
+            client = await getClient();
+            db = client.db(process.env.DB_NAME);
+            let result_update = await db.collection('appointments').updateOne({_id:new ObjectId(_idtask)},{$set:{state:Number(state)}})
+            return result_update;
+        } catch (error) {
+            throw error;
+        }finally{
+            if(client !==null)client.close();
+        }
+    }
+
+
+
 
 }
 

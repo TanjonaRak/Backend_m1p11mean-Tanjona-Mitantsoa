@@ -13,6 +13,8 @@ module.exports = (io) => {
     router.post('/getAppHistory',AppointmentController.getAppointmentHistory);
     router.get('/:year/:month',AppointmentController.getTurnover);
 
+    router.post('/employee-task',AppointmentController.getTaskByEmployee);
+    router.put('/employee-task/:_id_task/:state',AppointmentController.UpdateTask)
     
     return router;
 };  

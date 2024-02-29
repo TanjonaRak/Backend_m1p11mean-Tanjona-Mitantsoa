@@ -11,5 +11,7 @@ module.exports = (io) => {
     router.post('/AppointmentEmp',EmployeeController.getAppointmentEmp);
     router.get('/state-app/:year/:month',EmployeeController.getNbrAppointmentPerDayPerMonth);
 
+    router.put('/',EmployeeController.UpdateEmployee);
+    router.get('/:_id',EmployeeController.getEmployeeById);
     return router;
 };
