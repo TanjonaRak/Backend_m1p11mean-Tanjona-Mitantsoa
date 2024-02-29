@@ -7,6 +7,7 @@ module.exports = (io) => {
     router.post('/:state',PreferenceController.CheckPreferenceEmployee);
     // router.post('/',PreferenceController.);
     router.post('/employee/preference',PreferenceController.getEmployeePreferenceCustomer);
+    router.post('/employee/preference-favoris',PreferenceController.getEmployeePreferenceCustomerFavoris);
     return router;
 
     

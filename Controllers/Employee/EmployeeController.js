@@ -41,6 +41,7 @@ class EmployeeController {
         }
     }
 
+    // async UpdateEmployee(){
     async UpdateEmployee(req,res){  
         let client = null;
         try {
@@ -71,6 +72,41 @@ class EmployeeController {
             res.status(200).send({profil,status:200,message:"request success"});
         } catch (error) {
             res.send({message:error.message,status:500})
+        }
+    }
+
+    async LoginEmployee(req,res){
+        try {
+            let employee = req.body;
+            let token = await EmployeeModel.loginEmployee(employee);
+            if(token!==null){
+                res.status(200).send({token,status:200,message:"request success"});
+            }else{
+                return res.json({ message: 'login ou mot de passe incorrect',status:401 });
+            }
+        } catch (error) {
+            res.send({message:error.message,status:500})}
+        }
+    async getAppointmentEmp (req,res){
+        try {
+            let emp =  {...req.body};
+            let result = await EmployeeModel.AppointmentEmp(emp);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+            
+        } catch (error) {
+            res.status(500).send({message:error.message,status:500})
+        }
+    }
+    async getNbrAppointmentPerDayPerMonth (req,res){
+        try {
+
+            let year = req.params.year;
+            let month = req.params.month;
+            let result = await EmployeeModel.NbrAppointmentPerDayPerMonth(year,month);
+            res.send({"status":200, "data": result,"message":"Request Success"});
+
+        } catch (error) {
+            res.status(500).send({message:error.message,status:500})
         }
     }
 } 

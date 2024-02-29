@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const { getClient } = require('../../Utility/db');
+const bcrypt = require('bcrypt');
 
 
 class Customer {
      
     customer = new Schema({
+       // _id: { type: String, required: true },
         name : {type:String,required : true},
         first_name : {type:String,required : true},
         password : {type:String, required : true},
@@ -82,7 +84,7 @@ class Customer {
             return customerArray;
         } catch (error) {
 
-            console.log('error:', error);
+            console.log('error:', error);   
             throw error;
         }
     }

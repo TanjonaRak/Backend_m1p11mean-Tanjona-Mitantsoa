@@ -1,0 +1,35 @@
+{
+    "customer": {
+        "_id": "65c3d8112f807500c11291b9",
+        "name": "Rakoto",
+        "first_name": "Jean"
+    },
+    "service": {
+        "_id": "65cbd1165abe8a6bbaade6d2",
+        "name": "Mackup",
+        "delay": 120,
+        "price": 200000,
+        "commission": 0.5,
+        "date_create": "2024-02-13T20:29:10.653Z"
+    },
+    "employee": {
+        "_id": "65c3d8112f807500c11291b9",
+        "name": "Rakotondrabearison",
+        "first_name": "Robert",
+        "login": "Admin",
+        "email": "tanjonafanirymiaro@gmail.com",
+        "password": "admin",
+        "etat": 10,
+        "service": [],
+        "__v": 0,
+        "date_last_update": "2024-02-16T21:59:42.769Z",
+        "end_time": "00:48",
+        "time_between": "01:48",
+        "working_hours": {
+            "end_time": "00:48",
+            "time_between": "01:48"
+        }
+    },
+    "dateAppointment":"2024-02-28",
+    "hours":"12:00"
+}

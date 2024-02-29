@@ -8,7 +8,11 @@ module.exports = (io) => {
     const EmployeeController = require('../../Controllers/Employee/EmployeeController');
     router.post('/',EmployeeController.SaveEmployee);
     router.get('/:_offset/:_limit',EmployeeController.getEmployee);
+    router.post('/AppointmentEmp',EmployeeController.getAppointmentEmp);
+    router.get('/state-app/:year/:month',EmployeeController.getNbrAppointmentPerDayPerMonth);
+
     router.put('/',EmployeeController.UpdateEmployee);
     router.get('/:_id',EmployeeController.getEmployeeById);
+    router.post('/login-employee',EmployeeController.LoginEmployee);
     return router;
 };
