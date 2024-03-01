@@ -17,7 +17,7 @@ class PreferenceServiceController {
         try {
             // console.log("customer")
             let customer = {...req.body};
-            console.log(" ===>> :: "+customer._id)
+            // console.log(" ===>> :: "+customer._id)
             let result = await PreferenceServiceModel.getPreferencesServices(customer,null);
             res.status(200).send({"data":result,status:200,message:"request success"});
         } catch (error) {

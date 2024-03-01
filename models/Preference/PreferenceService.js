@@ -100,7 +100,7 @@ class PreferenceService{
             client = await getClient();
             let db = client.db(process.env.DB_NAME);
             db_test = 1;
-            console.log(preference._id)
+            // console.log(preference._id)
             // result = await db.collection('preferencesemployees').updateOne({_id :new ObjectId(preference._id)},{
             //     $set:{
             //         state : Number(state)
@@ -109,7 +109,7 @@ class PreferenceService{
             result = await db.collection('preferencesservices').deleteOne({_id :new ObjectId(preference._id)})
             return result;
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             throw error;
         }finally{
             if(db_test === 1 && client!==null){
@@ -162,7 +162,7 @@ class PreferenceService{
             // employees.forEach((employee) => {
 
             // });
-            console.log(services.length)
+            // console.log(services.length)
             for(let i=0;i<services.length;i++){
                 services[i].state = 0;
                 // console.log(" ===>>>>> "+ preferences.length)

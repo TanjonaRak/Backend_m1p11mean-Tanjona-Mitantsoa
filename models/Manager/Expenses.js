@@ -62,7 +62,7 @@ class Expenses {
                 result = await db.collection("expenses").aggregate(aggregationPipeline).sort({start_date:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
                 lineNumber = parseInt(((result.length/limit) + 1));
             }else{
-                console.log("DB : ",db)
+                // console.log("DB : ",db)
                 lineNumber = await this.getLigneNumber(db,limit);    
                 result = await db.collection("expenses").find({}).sort({start_date:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
                 // console.log(result)

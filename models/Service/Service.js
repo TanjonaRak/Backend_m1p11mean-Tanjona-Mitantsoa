@@ -23,7 +23,7 @@ class Service {
 
     async SaveService (service){
         try {
-            console.log(service)
+            // console.log(service)
             const newService = new this.ServiceModel(service);
             const service_Save = await newService.save();
             return service_Save;

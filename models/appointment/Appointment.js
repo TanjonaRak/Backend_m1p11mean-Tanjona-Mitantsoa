@@ -82,18 +82,18 @@ class Appointment {
             db = client.db(process.env.DB_NAME);
             let empService = await Employee.getEmpPerService(appointment.service);
             // console.log(JSON.stringify(empService))
-            console.log(appointment.dateAppointment)
-              console.log({"$match":{
-                         "employee":{"$in" : JSON.stringify(empService)},
-                         "dateAppointment": appointment.dateAppointment}});
+            // console.log(appointment.dateAppointment)
+            //   console.log({"$match":{
+            //              "employee":{"$in" : JSON.stringify(empService)},
+            //              "dateAppointment": appointment.dateAppointment}});
                         
               let empAvalaible = await db.collection('appointments').aggregate([
-            //     {
-            //     "$match":{
-            //          "employee._id":{"$in" : empService},
-            //          "dateAppointment": new Date(appointment.dateAppointment)
-            //      }
-            //    },
+                {
+                "$match":{
+                     "employee._id":{"$in" : empService},
+                     "dateAppointment": new Date(appointment.dateAppointment)
+                 }
+               },
                 {
                   $addFields: {
                     hoursAsMinutes: {
@@ -107,7 +107,7 @@ class Appointment {
                 { $sort: { hoursAsMinutes: 1 } },
                 // { $unset: "hoursAsMinutes" } // Supprimer le champ temporaire ajouté
               ]).toArray();
-            console.log("=====>>>" , empAvalaible);
+            // console.log("=====>>>" , empAvalaible);
             return empAvalaible;
         } catch (error) {
             throw error;
@@ -132,7 +132,7 @@ class Appointment {
             hoursStart : 480,
             hoursEnd : 1020
         })
-        console.log(getEmpHour.length)
+        // console.log(getEmpHour.length)
         for(let i = 0;i < getEmpHour.length;i++){
             // if(i===0 && getEmpHour.dateAppointment){
 
@@ -140,7 +140,7 @@ class Appointment {
             if(i<getEmpHour.length-1){
                 let delay = this.getInt(getEmpHour[i].hours)+getEmpHour[i].service.delay;
                 let diffHour = this.getInt(getEmpHour[i+1].hours)-delay;
-                console.log(delay,"DELAY ", this.minutesToTimeString(this.getInt(getEmpHour[i+1].hours)))
+                // console.log(delay,"DELAY ", this.minutesToTimeString(this.getInt(getEmpHour[i+1].hours)))
                 if(diffHour>0){
                     const createDispo = {
                         hoursStart : delay,
@@ -161,12 +161,12 @@ class Appointment {
             }
            
         }
-        console.log(dispo,"===DISPO")
+        // console.log(dispo,"===DISPO")
         return dispo;
     }
 
     getInt (time){
-        console.log("TIME   :::: ",time)
+        // console.log("TIME   :::: ",time)
         let hours = Number(time.split(":")[0])*60;
         let min = Number(time.split(":")[1])
         return hours+min;
@@ -199,7 +199,7 @@ class Appointment {
                 })
             }
             for(let i=1;i<availableTime.length;i++){
-                console.log(timeService ,"<", availableTime[i].hoursEnd)
+                // console.log(timeService ,"<", availableTime[i].hoursEnd)
                 if(timeService <= availableTime[i].hoursEnd){
                     const result = {
                         hourAppointment : this.minutesToTimeString(availableTime[i].hoursStart),
@@ -224,21 +224,21 @@ class Appointment {
             for(let i=0;i<empService.length;i++){
                 let testEnter = false;
                 let testIsNotAvalaible = false;
-                console.log("LEN APP : ",empHour.length)
+                // console.log("LEN APP : ",empHour.length)
                 if(empHour.length>0){
                     for(let j=0;j<empHour.length;j++){
                         // console.log(empService[i]._id.equals(empHour[j].employee._id)," === ",empHour[j].employee._id)
                         if(empService[i]._id.equals(empHour[j].employee._id)){
                             testEnter =true;
-                            console.log(appointment.hours," === ",empHour[j].hours)
-                            console.log("CONDITION 1 ",
-                                this.getInt(empHour[j].hours)<=this.getInt(appointment.hours) &&
-                                this.getInt(empHour[j].hours)+empHour[j].service.delay>this.getInt(appointment.hours)
-                            )
-                            console.log("CONDITION 2 ",
-                                this.getInt(empHour[j].hours)<this.getInt(appointment.hours)+appointment.service.delay &&
-                            this.getInt(empHour[j].hours)+empHour[j].service.delay>this.getInt(appointment.hours)+appointment.service.delay
-                            )
+                            // // console.log(appointment.hours," === ",empHour[j].hours)
+                            // console.log("CONDITION 1 ",
+                            //     this.getInt(empHour[j].hours)<=this.getInt(appointment.hours) &&
+                            //     this.getInt(empHour[j].hours)+empHour[j].service.delay>this.getInt(appointment.hours)
+                            // )
+                            // console.log("CONDITION 2 ",
+                            //     this.getInt(empHour[j].hours)<this.getInt(appointment.hours)+appointment.service.delay &&
+                            // this.getInt(empHour[j].hours)+empHour[j].service.delay>this.getInt(appointment.hours)+appointment.service.delay
+                            // )
                             if(
                             this.getInt(empHour[j].hours)<=this.getInt(appointment.hours) &&
                             this.getInt(empHour[j].hours)+empHour[j].service.delay>this.getInt(appointment.hours)
@@ -250,7 +250,7 @@ class Appointment {
                             }
                         }
                     }
-                    console.log(testEnter," ===== ====== ",testIsNotAvalaible)
+                    // console.log(testEnter," ===== ====== ",testIsNotAvalaible)
                     if(testEnter===false){
                         tab.push(empService[i]);
                     }if(testIsNotAvalaible===false){
@@ -291,7 +291,7 @@ class Appointment {
         const days = [];
         // console.log(date.getMonth()==month)
         for (let i = 0;i<=date;i++) {
-            console.log("mita")
+            // console.log("mita")
             days.push(new Date(year,month-1,i));
             // date.setDate(date.getDate() + 1);
         }
@@ -330,14 +330,14 @@ class Appointment {
                 },
             ];
             let result = await db.collection('appointments').aggregate(pipline).toArray();
-            console.log("result==>>",result);
-            console.log("day==>>",days);
+            // console.log("result==>>",result);
+            // console.log("day==>>",days);
             let dataSend = [];
 
             for(let i=0;i<days.length;i++){
                 let test = false;
                 for(let j=0;j<result.length;j++){
-                    console.log(result[j]._id.date.toLocaleString().split(" ")[0],"===",days[i].toLocaleString().split(" ")[0])
+                    // console.log(result[j]._id.date.toLocaleString().split(" ")[0],"===",days[i].toLocaleString().split(" ")[0])
                     if(result[j]._id.date.toLocaleString().split(" ")[0]===days[i].toLocaleString().split(" ")[0]){
                         let res = {
                             "x" : new Date(days[i]),
@@ -367,7 +367,7 @@ class Appointment {
 
     async getTaskByStateDate(db,employee,dateTask,state){
         try {
-            console.log({" employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)})
+            // console.log({" employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)})
             let result = await db.collection('appointments').find({"employee._id":employee._id,"dateAppointment":new Date(dateTask),state:Number(state)}).toArray();
             return  result ;
         } catch (error){
@@ -397,7 +397,7 @@ class Appointment {
         try {
             client = await getClient();
             let db = client.db(process.env.DB_NAME);
-            console.log({_id:new ObjectId(_idtask)})
+            // console.log({_id:new ObjectId(_idtask)})
             let result_update = await db.collection('appointments').updateOne({_id:new ObjectId(_idtask)},{$set:{state:Number(state)}})
             return result_update;
         } catch (error) {

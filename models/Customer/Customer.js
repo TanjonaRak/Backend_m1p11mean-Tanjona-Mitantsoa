@@ -80,11 +80,11 @@ class Customer {
             client = await getClient();
             db = client.db(process.env.DB_NAME);
            let customerArray = await db.collection('customers').findOne({"email": email,"password":passwordC});
-            console.log('customerArray:===============', customerArray);
+            // console.log('customerArray:===============', customerArray);
             return customerArray;
         } catch (error) {
 
-            console.log('error:', error);   
+            // console.log('error:', error);   
             throw error;
         }
     }

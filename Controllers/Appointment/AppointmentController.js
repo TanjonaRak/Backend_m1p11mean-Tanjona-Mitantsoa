@@ -58,7 +58,7 @@ class AppointmentController {
     async sendEmail (req,res){
          let customer = req.body;
          Appointment.sendEmail(customer, info => {
-            console.log("The email has beed send id ${customer.id}");
+            // console.log("The email has beed send id ${customer.id}");
             res.send(info);
          });
     }

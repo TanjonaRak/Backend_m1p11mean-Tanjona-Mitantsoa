@@ -91,7 +91,7 @@ class  PreferenceEmployee {
             client = await getClient();
             let db = client.db(process.env.DB_NAME);
             db_test = 1;
-            console.log(preference._id)
+            // console.log(preference._id)
             // result = await db.collection('preferencesemployees').updateOne({_id :new ObjectId(preference._id)},{
             //     $set:{
             //         state : Number(state)
@@ -100,7 +100,7 @@ class  PreferenceEmployee {
             result = await db.collection('preferencesemployees').deleteOne({_id :new ObjectId(preference._id)})
             return result;
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             throw error;
         }finally{
             if(db_test === 1 && client!==null){

@@ -11,7 +11,7 @@ class CustomerController {
         const cust = {...req.body}
 
        var status = await CustomerModel.SaveCustomer(cust);
-       console.log(status);
+    //    console.log(status);
        if(status){
             res.send({"status":true, "message": "Customer created successfuly"});
        }

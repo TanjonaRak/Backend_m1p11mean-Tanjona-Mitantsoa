@@ -59,13 +59,13 @@ class Employee {
     }
 
     async VerifyObject(employee){
-        console.log(employee.email)
+        // console.log(employee.email)
         return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(employee.email);  
     }
 
     async VerifyData(employee){
         let salary = Number(employee.salary).toString();
-        console.log(salary=== "NaN")
+        // console.log(salary=== "NaN")
         if (salary === "NaN") {
             throw new Error("Salary is a number");
         } 
@@ -108,7 +108,7 @@ class Employee {
                 db = client.db(process.env.DB_NAME); 
             }
             let result = await db.collection('employees').find({}).sort({_id:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
-            console.log(result)
+            // console.log(result)
             return result;
         } catch (error) {
             throw error;
@@ -136,7 +136,7 @@ class Employee {
             // console.log(employee)
             let isEmail = await this.VerifyObject(employee);
             const newEmp = new this.EmployeModel(employee);
-            console.log(isEmail)
+            // console.log(isEmail)
             if(isEmail){
                 if(db == null){
                     db_test = 1;
@@ -236,7 +236,7 @@ class Employee {
             client = await getClient();
             let db = client.db(process.env.DB_NAME);
             let user =await  db.collection('employees').find({login:employee.login}).sort({"date_create":-1}).toArray();
-            console.log(user[0])
+            // console.log(user[0])
             if(user.length!==0 && (await bcrypt.compare(employee.password, user[0].password))){           
                 const token = jwt.sign({_id:user[0].id, login: user[0].login,email:user[0].email,name:user[0].name}, secretKey, { expiresIn: '1h' });
                 return {token,"first_name":user[0].first_name,"_id":user[0]._id};
@@ -357,10 +357,10 @@ class Employee {
         let client = null;
        let db = null;
         try {
-            console.log(service)
+            // console.log(service)
             client = await getClient();
             db = client.db(process.env.DB_NAME);
-            console.log({"service": {$elemMatch : {"name" : service.name }}})
+            // console.log({"service": {$elemMatch : {"name" : service.name }}})
             let empService = await db.collection('employees').find({"service": {$elemMatch : {"name" : service.name }}},{"_id":1,"picture":0,"name":0,"first_name":0,"email":0,"password":0,"login":0,"service":0}).toArray();
             return empService;
         } catch (error) {
@@ -391,7 +391,7 @@ class Employee {
         const days = [];
         // console.log(date.getMonth()==month)
         for (let i = 0;i<=date;i++) {
-            console.log("mita")
+            // console.log("mita")
             days.push(new Date(year,month-1,i));
             // date.setDate(date.getDate() + 1);
         }
@@ -429,14 +429,14 @@ class Employee {
                 },
             ];
             let result = await db.collection('appointments').aggregate(pipline).toArray();
-            console.log("result==>>",result);
-            console.log("day==>>",days);
+            // console.log("result==>>",result);
+            // console.log("day==>>",days);
             let dataSend = [];
 
             for(let i=0;i<days.length;i++){
                 let test = false;
                 for(let j=0;j<result.length;j++){
-                    console.log(result[j]._id.date.toLocaleString().split(" ")[0],"===",days[i].toLocaleString().split(" ")[0])
+                    // console.log(result[j]._id.date.toLocaleString().split(" ")[0],"===",days[i].toLocaleString().split(" ")[0])
                     if(result[j]._id.date.toLocaleString().split(" ")[0]===days[i].toLocaleString().split(" ")[0]){
                         let res = {
                             "x" : new Date(days[i]),

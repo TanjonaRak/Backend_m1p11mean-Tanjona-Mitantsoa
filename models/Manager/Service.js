@@ -21,7 +21,7 @@ class Service {
         let price = Number(service.price).toString();
         let delay = Number(service.delay).toString();
         let commission = Number(service.commission).toString();
-        console.log(price=== "NaN")
+        // console.log(price=== "NaN")
         if (price === "NaN") {
             throw new Error("Price is not a number");
         } if (delay === "NaN") {
@@ -81,7 +81,7 @@ class Service {
             // console.log(isPrice)
             const newService = new this.ServiceModel(service);
             newService.date_to_update = new Date();
-            console.log(service)
+            // console.log(service)
             let res = await this.ServiceModel.findOneAndUpdate(
                 { _id: service._id },
                 newService,

@@ -56,7 +56,7 @@ class StatistiqueManager {
             for (let i = 0; i < employees.length; i++) {
                 let testEnter = false;
                 for (let n = 0; n < stateHours.length; n++) {
-                    console.log(employees[i]._id)
+                    // console.log(employees[i]._id)
                     if (employees[i]._id.equals(stateHours[n]._id.id_employee)) {
                         testEnter = true;
                         const res = {

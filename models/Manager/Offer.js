@@ -45,7 +45,7 @@ class Offer {
             let date_filtre = []
             let lineNumber = 0;
             let result = null;
-            console.log(offer.ObjectKey)
+            // console.log(offer.ObjectKey)
             
             if(offer && Object.keys(offer).length > 0){
                 let aggregationPipeline = []
@@ -70,14 +70,14 @@ class Offer {
                     });
                 }
                 match.$and = date_filtre;
-                console.log(offset)
+                // console.log(offset)
                 result = await db.collection("offerspecialys").aggregate(aggregationPipeline).sort({start_date:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
                 lineNumber = parseInt(((result.length/limit) + 1));
             }else{
-                console.log("DB : ",db)
+                // console.log("DB : ",db)
                 lineNumber = await this.getLigneNumber(db,limit);    
                 result = await db.collection("offerspecialys").find({}).sort({start_date:-1}).skip(Number(offset)).limit(Number(limit)).toArray();
-                console.log(result)
+                // console.log(result)
                 
             }
             

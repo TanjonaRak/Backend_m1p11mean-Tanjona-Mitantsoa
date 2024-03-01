@@ -56,7 +56,7 @@ class EmployeeController {
             // res.status(200).send({data_update,status:200,message:"request success"});
             // res.send({message:,status:500})
         } catch (error) {
-            console.log(error.message)
+            // console.log(error.message)
             res.send({message:error.message,status:500})
         }finally{
             if (client!=null) {

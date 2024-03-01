@@ -26,7 +26,7 @@ class Manager {
             client = await getClient();
             let db = client.db(process.env.DB_NAME);
             let user =await  db.collection('managers').find({login:manager.login}).sort({"date_create":-1}).toArray();
-            console.log(user[0])
+            // console.log(user[0])
             if(user.length!==0 && (await bcrypt.compare(manager.password, user[0].password))){           
                 const token = jwt.sign({_id:user[0].id, login: user[0].login,email:user[0].email,name:user[0].name}, secretKey, { expiresIn: '1h' });
                 return {token,"name":user[0].first_name,"_id":user[0]._id};

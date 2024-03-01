@@ -7,7 +7,7 @@ class ServiceController {
         const cust = {...req.body}
 
        var status = await ServiceModel.SaveService(cust);
-       console.log(status);
+    //    console.log(status);
        if(status){
             res.send({"status":true, "message": "Service created successfuly"});
        }
